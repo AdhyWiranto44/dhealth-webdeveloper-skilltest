@@ -6,14 +6,17 @@ import objNonRacikan, { getObjNonRacikan } from "../constants/fieldObj/objNonRac
 import objRacikan from "../constants/fieldObj/objRacikan";
 import MainLayout from "../layouts/main";
 import { v4 as uuidv4 } from 'uuid';
+import { insertNewTransaction } from "./api/transaction";
+import Router, { useRouter } from "next/router";
 
 export default function TambahResep() {
   const [fieldData, setFieldData] = useState([]);
   const [draftResep, setDraftResep] = useState("");
+  const router = useRouter();
 
   const renderDraftResep = () => {
     return (
-      fieldData.map((field, idx) => {
+      fieldData.map((field, idx, theFieldData) => {
         if (Object.keys(field)[0] === "non_racikan") {
           return (
             <>
@@ -23,6 +26,20 @@ export default function TambahResep() {
                 <td>{field.non_racikan.obatalkes_nama}</td>
                 <td>{field.non_racikan.signa_nama}</td>
                 <td>{field.non_racikan.qty}</td>
+                <td>
+                  <button
+                    className="btn btn-sm btn-danger"
+                    onClick={(e) => {
+                      setFieldData([
+                        ...theFieldData.filter((field, i) => {
+                          return i !== idx;
+                        })
+                      ])
+
+                      setDraftResep(renderDraftResep());
+                    }}
+                  >Hapus</button>
+                </td>
               </tr>
             </>
           )
@@ -38,6 +55,20 @@ export default function TambahResep() {
                       <td>{field.racikan.obatalkes[0].obatalkes_nama}</td>
                       <td>{field.racikan.obatalkes[0].signa_nama}</td>
                       <td>{field.racikan.obatalkes[0].qty}</td>
+                      <td rowSpan={field.racikan.obatalkes.length}>
+                        <button
+                          className="btn btn-sm btn-danger"
+                          onClick={(e) => {
+                            setFieldData([
+                              ...theFieldData.filter((field, i) => {
+                                return i !== idx;
+                              })
+                            ])
+
+                            setDraftResep(renderDraftResep());
+                          }}
+                        >Hapus</button>
+                      </td>
                     </tr>
                   </>
                 )
@@ -57,6 +88,11 @@ export default function TambahResep() {
         }
       })
     )
+  }
+
+  const handleInsertNewTransaction = async () => {
+    await insertNewTransaction(fieldData);
+    router.reload();
   }
 
   useEffect(() => {
@@ -86,6 +122,7 @@ export default function TambahResep() {
                       buttonName="Order"
                       onClick={(e) => {
                         console.log(fieldData);
+                        handleInsertNewTransaction();
                       }}
                     />
                   </div>
@@ -102,6 +139,7 @@ export default function TambahResep() {
                     <th scope="col">Obat</th>
                     <th scope="col">Signa</th>
                     <th scope="col">Qty</th>
+                    <th scope="col">Aksi</th>
                   </tr>
                 </thead>
                 <tbody>

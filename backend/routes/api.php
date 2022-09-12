@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ObatalkesController;
 use App\Http\Controllers\SignaController;
+use App\Http\Controllers\TransactionController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -18,6 +19,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::get("/obatalkes", [ObatalkesController::class, "index"]);
 Route::get("/signa", [SignaController::class, "index"]);
+Route::get("/transaction", [TransactionController::class, "index"]);
+Route::post("/transaction", [TransactionController::class, "store"]);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
   return $request->user();

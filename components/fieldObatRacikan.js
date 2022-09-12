@@ -55,9 +55,11 @@ export default function FieldObatRacikan(props) {
         >
           <option value="">-- Pilih Obatalkes --</option>
           {obatalkes.map((oba, idx) => {
-            return (
-              <option key={idx} value={oba.obatalkes_id}>{oba.obatalkes_nama}</option>
-            )
+            if (oba.stok > 0) {
+              return (
+                <option key={idx} value={oba.obatalkes_id}>{`${oba.obatalkes_nama} (stok: ${oba.stok})`}</option>
+              )
+            }
           })}
         </select>
       </>
@@ -129,6 +131,7 @@ export default function FieldObatRacikan(props) {
   return (
     <div className="row rounded shadow-sm p-3 mb-3">
       <div className="col">
+        <h5 className="fw-bold">Obat racikan</h5>
         <div className="row border rounded p-3 mb-3">
           <div className="col-md-3 mb-3">
             <label htmlFor="nama_racikan">Nama Racikan</label>
@@ -177,7 +180,7 @@ export default function FieldObatRacikan(props) {
         <div className="row">
           <div className="col-md">
             <RegularButton
-              className={"btn btn-outline-primary"}
+              className={"btn btn-outline-primary w-100"}
               buttonName="+ Tambah racikan ke resep"
               onClick={(e) => {
                 handlePenambahanObatRacikan();
