@@ -1,34 +1,94 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# D'Health Web Developer Skill Test
 
-## Getting Started
+## Stack Teknologi
 
-First, run the development server:
+- Laravel
+- Next JS
+- Bootstrap (Template pribadi)
+- MySQL
 
-```bash
-npm run dev
-# or
-yarn dev
+## Cara Penginstallan
+
+- Clone project ini
+
+```
+git clone https://github.com/AdhyWiranto44/dhealth-webdeveloper-skilltest
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- Masuk ke folder project yaitu `dhealth-webdeveloper-skilltest`
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+```
+cd dhealth-webdeveloper-skilltest
+```
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+- Install dependencies frontend nya
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+```
+npm install
+```
 
-## Learn More
+- Masuk ke folder project backend laravel `backend`
 
-To learn more about Next.js, take a look at the following resources:
+```
+cd backend
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- Install dependencies backend laravel nya
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+```
+composer install
+```
 
-## Deploy on Vercel
+- Generate APP KEY Laravel yang baru
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```
+php artisan key:generate
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- Duplikat file `.env.example` dan rename menjadi `.env`
+
+```
+cp .env.example .env
+```
+
+- Buka file `.env`, ubah beberapa seperti berikut
+
+```
+// nama db
+DB_DATABASE=dhealth_eprescription
+
+// db username dan password sesuaikan
+DB_USERNAME=root
+DB_PASSWORD=
+```
+
+- Buka DBMS MySQL, buat database dengan nama `dhealth_eprescription`
+
+- Lalu import file sql dump bernama `dhealth_eprescription.sql` yang ada pada folder `backend/backupDatabase`
+
+- Keluar dari folder backend, pastikan telah berada di folder utama project yaitu folder `dhealth-webdeveloper-skilltest`
+
+```
+cd ..
+```
+
+- Jalan perintah berikut untuk menjalankan frontend dan backend sekaligus
+
+```
+npm run dev:all
+```
+
+- Jika tidak berfungsi, juga bisa dijalankan satu persatu
+
+```
+// FRONTEND
+npm run dev
+
+// BACKEND
+cd backend
+php artisan serve
+```
+
+- Buka di web browser dengan url `http://localhost:3000`
+
+- Url backend `http://localhost:8000`
