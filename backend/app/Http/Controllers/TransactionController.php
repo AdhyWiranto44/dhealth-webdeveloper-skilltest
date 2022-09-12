@@ -69,24 +69,46 @@ class TransactionController extends Controller
         $lastRacikanData = DB::table("racikan")->orderBy("racikan_id", "desc")->limit(1)->get()[0];
 
         foreach ($trans->racikan->obatalkes as $obatRacikan) {
-          $racikan = [
-            "resep_id" => $lastResepData->resep_id,
-            "racikan_id" => $lastRacikanData->racikan_id,
-            "obatalkes_id" => $obatRacikan->obatalkes_id,
-            "signa_id" => $obatRacikan->signa_id,
-            "qty" => $obatRacikan->qty
-          ];
-          DB::table("obat_resep")->insert($racikan);
+          $obatalkes = DB::table("obatalkes_m")->where("obatalkes_id", $obatRacikan->obatalkes_id)->get()[0];
+          if ($obatalkes->stok > 0 && $obatRacikan->qty <= $obatalkes->stok) {
+            $racikan = [
+              "resep_id" => $lastResepData->resep_id,
+              "racikan_id" => $lastRacikanData->racikan_id,
+              "obatalkes_id" => $obatRacikan->obatalkes_id,
+              "signa_id" => $obatRacikan->signa_id,
+              "qty" => $obatRacikan->qty
+            ];
+            DB::table("obatalkes_m")->where("obatalkes_id", $obatRacikan->obatalkes_id)->update([
+              "stok" => $obatalkes->stok - $obatRacikan->qty
+            ]);
+            DB::table("obat_resep")->insert($racikan);
+          } else {
+            return response()->json([
+              "success" => false,
+              "message" => "Stok tidak cukup"
+            ], 400);
+          }
         }
       } else if (key($trans) == "non_racikan") {
-        $nonRacikan = [
-          "resep_id" => $lastResepData->resep_id,
-          "racikan_id" => 0,
-          "obatalkes_id" => $trans->non_racikan->obatalkes_id,
-          "signa_id" => $trans->non_racikan->signa_id,
-          "qty" => $trans->non_racikan->qty
-        ];
-        DB::table("obat_resep")->insert($nonRacikan);
+        $obatalkes = DB::table("obatalkes_m")->where("obatalkes_id", $trans->non_racikan->obatalkes_id)->get()[0];
+        if ($obatalkes->stok > 0 && $trans->non_racikan->qty <= $obatalkes->stok) {
+          $nonRacikan = [
+            "resep_id" => $lastResepData->resep_id,
+            "racikan_id" => 0,
+            "obatalkes_id" => $trans->non_racikan->obatalkes_id,
+            "signa_id" => $trans->non_racikan->signa_id,
+            "qty" => $trans->non_racikan->qty
+          ];
+          DB::table("obatalkes_m")->where("obatalkes_id", $trans->non_racikan->obatalkes_id)->update([
+            "stok" => $obatalkes->stok - $trans->non_racikan->qty
+          ]);
+          DB::table("obat_resep")->insert($nonRacikan);
+        } else {
+          return response()->json([
+            "success" => false,
+            "message" => "Stok tidak cukup"
+          ], 400);
+        }
       }
     }
 

@@ -13,6 +13,7 @@ export default function TambahResep() {
   const [fieldData, setFieldData] = useState([]);
   const [draftResep, setDraftResep] = useState("");
   const router = useRouter();
+  const [message, setMessage] = useState("");
 
   const renderDraftResep = () => {
     return (
@@ -91,7 +92,10 @@ export default function TambahResep() {
   }
 
   const handleInsertNewTransaction = async () => {
-    await insertNewTransaction(fieldData);
+    const response = await insertNewTransaction(fieldData);
+    if (response.success == false) {
+      return setMessage("Gagal menambahkan resep");
+    }
     router.reload();
   }
 
@@ -104,6 +108,7 @@ export default function TambahResep() {
       title="Tambah Resep"
       content={
         <div className="container">
+          <h1>{message}</h1>
           <div className="row">
             <div className="col-lg-7">
               <form>
