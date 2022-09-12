@@ -122,7 +122,7 @@ export default function Index() {
       <MainLayout
         title="Daftar Obatalkes"
         content={
-          <>
+          <div className="container">
             <div className="container-fluid mb-2">
               <div className="row">
                 <div className="col-md-6 col-lg-3">
@@ -183,7 +183,7 @@ export default function Index() {
                 </div>
               </div>
             </div>
-          </>
+          </div>
         }
       />
     </>

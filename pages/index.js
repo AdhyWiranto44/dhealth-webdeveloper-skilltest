@@ -123,7 +123,7 @@ export default function Index() {
       <MainLayout
         title="Daftar Resep"
         content={
-          <>
+          <div className="container">
             <ButtonLink
               buttonName={"Tambah Resep"}
               href={"/tambah"}
@@ -190,7 +190,7 @@ export default function Index() {
                 </div>
               </div>
             </div>
-          </>
+          </div>
         }
       />
     </>
