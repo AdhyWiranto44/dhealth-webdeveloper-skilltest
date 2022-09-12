@@ -69,7 +69,7 @@ export default function TambahResep() {
       content={
         <div className="container">
           <div className="row">
-            <div className="col-md-7">
+            <div className="col-lg-7">
               <form>
                 <FieldObatNonRacikan
                   fieldData={fieldData}
@@ -81,7 +81,9 @@ export default function TambahResep() {
                 />
                 <div className="row mb-3">
                   <div className="col-md">
-                    <RegularButton buttonName="Order"
+                    <RegularButton
+                      className={"btn btn-salmon"}
+                      buttonName="Order"
                       onClick={(e) => {
                         console.log(fieldData);
                       }}
@@ -90,9 +92,9 @@ export default function TambahResep() {
                 </div>
               </form>
             </div>
-            <div className="col-md-5">
+            <div className="col-lg-5">
               <h6 className="fw-bold">Draft Resep Obat</h6>
-              <table class="table table-striped">
+              <table className="table table-striped">
                 <thead>
                   <tr>
                     <th scope="col">#</th>

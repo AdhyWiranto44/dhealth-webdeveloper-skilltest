@@ -93,12 +93,12 @@ export default function Sidebar(props) {
                   return (
                     <>
                       <li className={"rounded-start " + (router.pathname == menu.href ? "menu-active" : "")}>
-                        <Link href={menu.href}>
-                          <a className="d-flex align-items-between" title={menu.title}>
-                            <i className={`${menu.icon} me-3 h4`}></i>
-                            <p className="mb-0">{menu.title}</p>
-                          </a>
-                        </Link>
+                        {/* <Link href={menu.href}> */}
+                        <a href={menu.href} className="d-flex align-items-between" title={menu.title}>
+                          <i className={`${menu.icon} me-3 h4`}></i>
+                          <p className="mb-0">{menu.title}</p>
+                        </a>
+                        {/* </Link> */}
                       </li>
                     </>
                   )

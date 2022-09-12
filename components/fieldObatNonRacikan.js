@@ -1,35 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { getAllObatalkes } from "../pages/api/obatalkes";
+import { getAllSigna } from "../pages/api/signa";
 import RegularButton from "./regularButton";
 
 export default function FieldObatNonRacikan(props) {
-  const [obatalkes, setObatalkes] = useState([
-    {
-      "obatalkes_id": 1,
-      "obatalkes_nama": "KASSA NON-XRAY 10 CM X 10 CM"
-    },
-    {
-      "obatalkes_id": 2,
-      "obatalkes_nama": "POLYSORB 1 CL905"
-    },
-    {
-      "obatalkes_id": 3,
-      "obatalkes_nama": "VICRYL PLUS 2-0 VCP317 TAPER"
-    }
-  ]);
-  const [signa, setSigna] = useState([
-    {
-      "signa_id": 1,
-      "signa_nama": "1X SEHARI 0.5 TABLET (MALAM)"
-    },
-    {
-      "signa_id": 2,
-      "signa_nama": "1X SEHARI 0.5 TABLET, SEBELUM MAKAN (MALAM)"
-    },
-    {
-      "signa_id": 3,
-      "signa_nama": "5X SEHARI 2 KAPSUL"
-    }
-  ]);
+  const [obatalkes, setObatalkes] = useState([]);
+  const [signa, setSigna] = useState([]);
   const defaultNonRacikanData = {
     "non_racikan": {
       "obatalkes_id": 0,
@@ -40,6 +16,24 @@ export default function FieldObatNonRacikan(props) {
     }
   }
   const [nonRacikanData, setNonRacikanData] = useState(defaultNonRacikanData);
+
+  const handleGetObatalkes = async () => {
+    const obatalkes = await getAllObatalkes();
+    setObatalkes([...obatalkes.data.data]);
+  }
+
+  const handleGetSigna = async () => {
+    const signa = await getAllSigna();
+    setSigna([...signa.data.data]);
+  }
+
+  useEffect(() => {
+    handleGetObatalkes();
+  }, []);
+
+  useEffect(() => {
+    handleGetSigna();
+  }, []);
 
   const renderObatalkesOption = () => {
     return (
@@ -102,9 +96,9 @@ export default function FieldObatNonRacikan(props) {
   }
 
   return (
-    <div className="row border p-3 mb-3">
+    <div className="row rounded shadow-sm p-3 mb-3">
       <div className="col">
-        <div className="row border mb-3">
+        <div className="row border rounded mb-3">
           <div className="col-md-4 mb-3">
             <label htmlFor="nama_obat">Nama Obat</label>
             {renderObatalkesOption()}
@@ -132,6 +126,7 @@ export default function FieldObatNonRacikan(props) {
         <div className="row">
           <div className="col-md">
             <RegularButton
+              className={"btn btn-outline-primary"}
               buttonName="+ Tambah non-racikan ke resep"
               onClick={(e) => {
                 props.setFieldData([...props.fieldData, nonRacikanData]);

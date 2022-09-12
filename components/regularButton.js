@@ -1,7 +1,7 @@
 export default function RegularButton(props) {
   return (
     <button
-      className="mb-3"
+      className={props.className}
       type="button"
       onClick={props.onClick}
     >

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ObatalkesController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,6 +14,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get("/obatalkes", [ObatalkesController::class, "index"]);
+
 Route::get('/', function () {
-    return view('welcome');
+  return view('welcome');
 });
